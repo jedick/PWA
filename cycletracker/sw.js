@@ -6,10 +6,16 @@ const CACHE_NAME = `period-tracker-${VERSION}`;
 
 // The static resources that the app needs to function.
 const APP_STATIC_RESOURCES = [
+  // The dot-slash takes care of index.html
   "./",
-  "./index.html",
   "./app.js",
   "./style.css",
+  // If we don't include the manifest in the cache,
+  // it gets a 404 after reloading the page and the app becomes uninstallable
+  "./cycletracker.json",
+  // The app icon should be listed here for installation on iOS and Android
+  "./icons/tire.svg",
+  // This is a higher-resolution icon inherited from upstream that currently isn't used
   "./icons/wheel.svg",
 ];
 
