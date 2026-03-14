@@ -9,6 +9,7 @@ const APP_STATIC_RESOURCES = [
   // The dot-slash takes care of index.html
   "./",
   "./app.js",
+  "./auth.js",
   "./style.css",
   // If we don't include the manifest in the cache,
   // it gets a 404 after reloading the page and the app becomes uninstallable
@@ -46,25 +47,28 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// On fetch, intercept server requests
-// and respond with cached responses instead of going to network
 self.addEventListener("fetch", (event) => {
+  // On fetch, intercept only same-origin requests.
+  // Cross-origin requests (e.g. Supabase CDN) must go to the network or auth breaks on reload.
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
   // As a single page app, direct app to always go to cached home page.
   if (event.request.mode === "navigate") {
     event.respondWith(caches.match("./"));
     return;
   }
 
-  // For all other requests, go to the cache first, and then the network.
+  // For same-origin requests, serve from cache or 404.
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
       const cachedResponse = await cache.match(event.request);
       if (cachedResponse) {
-        // Return the cached response if it's available.
         return cachedResponse;
       }
-      // If resource isn't in the cache, return a 404.
       return new Response(null, { status: 404 });
     })()
   );

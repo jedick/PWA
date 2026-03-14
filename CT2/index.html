@@ -11,26 +11,28 @@
   <body>
     <h1>Period tracker</h1>
     <section id="auth">
-      <h2>Sign in</h2>
-      <form id="auth-form">
-        <p>
-          <label for="auth-email">Email</label>
-          <input type="email" id="auth-email" autocomplete="email" required />
-        </p>
-        <p>
-          <label for="auth-password">Password</label>
-          <input
-            type="password"
-            id="auth-password"
-            autocomplete="current-password"
-            minlength="6"
-            required
-          />
-        </p>
-        <p>
-          <button type="submit">Sign in / Sign up</button>
-        </p>
-      </form>
+      <div id="auth-sign-in-wrapper">
+        <h2>Sign in</h2>
+        <form id="auth-form">
+          <p>
+            <label for="auth-email">Email</label>
+            <input type="email" id="auth-email" autocomplete="email" required />
+          </p>
+          <p>
+            <label for="auth-password">Password</label>
+            <input
+              type="password"
+              id="auth-password"
+              autocomplete="current-password"
+              minlength="6"
+              required
+            />
+          </p>
+          <p>
+            <button type="submit">Sign in / Sign up</button>
+          </p>
+        </form>
+      </div>
       <p>
         <button id="sign-out" type="button" hidden>Sign out</button>
       </p>
@@ -62,7 +64,7 @@
       };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js" defer></script>
+    <script type="module" src="app.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("sw.js");
